@@ -13,7 +13,7 @@ namespace Access_Database
 {
     public partial class Form1 : Form
     {
-        OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Alumno\Documents\DbPersona.accdb;Persist Security Info=True");
+        OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\JosBri\OneDrive\Documentos\DbPersona.accdb;Persist Security Info=True");
         public Form1()
         {
             InitializeComponent();
@@ -41,6 +41,40 @@ namespace Access_Database
             conn.Close();
             MessageBox.Show("Registro exitosamente guardado");
             //Limpiar texto();
+            LlenarGrid();
+        }
+
+        void limpiarTexto()
+        {
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            textBox1.Enabled = true;
+            conn.Open();
+            OleDbCommand cmd = new OleDbCommand("delete from TablaPersona where Id="
+                + textBox1.Text + " ", conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("Registro Eliminado");
+            limpiarTexto();
+            LlenarGrid();
+            //textBox1.Enabled = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            conn.Open();
+            OleDbCommand cmd = new OleDbCommand("update TablaPersona set Nombre=" +
+                textBox2.Text + "', edad=" + textBox3.Text + "where Id=" + textBox1.Text
+                 + " ", conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("Registro Actualizado.");
+            limpiarTexto();
             LlenarGrid();
         }
     }
